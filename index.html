@@ -3,7 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LADLA GAME STORE</title>
+<title>Deal STORE</title>
+<!-- ===== PWA INSTALL FIX - YEHI MISSING THA ===== -->
+<meta name="theme-color" content="#0a050a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LADLA GAME STORE">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhJREFUeNrs0DEBAAAAAADgF5j2C0oAAAAASUVORK5CYII=">
+<link id="pwa-manifest" rel="manifest" href="">
+<script>
+// Manifest ko isi file me bana dete hain - alag file ki zaroorat nahi
+const manifestData = {
+  "name": "LADLA GAME STORE",
+  "short_name": "LADLA STORE",
+  "description": "Trending Topups - Fast - Secure - Instant",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a050a",
+  "theme_color": "#0a050a",
+  "orientation": "portrait",
+  "icons": [
+    {"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhJREFUeNrs0DEBAAAAAADgF5j2C0oAAAAASUVORK5CYII=", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhJREFUeNrs0DEBAAAAAADgF5j2C0oAAAAASUVORK5CYII=", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+};
+const mBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+document.getElementById('pwa-manifest').href = URL.createObjectURL(mBlob);
+</script>
 <style>
 :root{--bg:radial-gradient(1200px 600px at 10% 0%, #3b0f3a 0%, transparent 60%), radial-gradient(1000px 500px at 100% 20%, #ff5e3a 0%, transparent 55%), radial-gradient(800px 600px at 50% 100%, #ff8a5c 0%, transparent 60%), #0a050a;--accent:#FFC9A3;--banner:linear-gradient(135deg,#FF5E8A,#A855F7,#FF8A5C,#FFC9A3);--btn-bg:linear-gradient(135deg,#FF5E8A,#A855F7);--btn-text:#fff;--glow:0 10px 40px rgba(255,94,138,.45)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
@@ -14,6 +41,8 @@ header{padding:14px 16px;display:flex;align-items:center;justify-content:space-b
 #storeTitle h2{background:var(--banner);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:23px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #storeTitle small{color:#d1c7d1}
 .live{background:rgba(0,255,150,.15);color:#00ffa3;border:1px solid rgba(0,255,150,.4);padding:5px 11px;border-radius:20px;font-size:11px;font-weight:bold}
+.installBtn{background:#fff;color:#000;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:900;box-shadow:none;display:none}
+.installBtn.show{display:block}
 #banner{height:185px;margin:14px 16px;border-radius:24px;background:var(--banner);display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;box-shadow:var(--glow);border:1px solid rgba(255,255,255,.35);position:relative}
 #banner .main-banner-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
 #banner .main-banner-img.show{opacity:1}
@@ -46,7 +75,6 @@ button{padding:10px 16px;border:0;border-radius:12px;background:var(--btn-bg);co
 .btn-green{background:var(--btn-bg);color:#fff;width:100%;padding:12px}
 .btn-red{background:linear-gradient(135deg,#ff1744,#ff5e3a);color:#fff;padding:6px 10px;font-size:12px;box-shadow:none}
 .btn-small{background:#333;color:#fff;padding:6px 10px;font-size:11px;box-shadow:none}
-.btn-yellow{background:#ffcc00;color:#000;box-shadow:none}
 .btn-save{background:#fff;color:#000;width:100%;padding:11px;box-shadow:none;margin-top:6px}
 .toggle-row{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.3);padding:10px 12px;border-radius:12px;margin:6px 0;border:1px solid rgba(255,255,255,.1)}
 .toggle-row input{width:20px;height:20px;margin:0}
@@ -125,7 +153,6 @@ footer{background:rgba(0,0,0,.5);padding:28px 16px 16px;margin-top:10px;border-t
 .packs-wrap h2{font-size:18px;font-weight:900;display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .packs-wrap h2:before{content:'';width:4px;height:20px;background:var(--btn-bg);border-radius:10px;display:block}
 .pack-buy{width:100%;background:var(--btn-bg);padding:9px;border-radius:9px;font-size:13px;margin-top:8px}
-/* PAYMENT VIDEO JAISA */
 .pay-voltra{background:#fff;color:#111;border-radius:16px;padding:6px;margin:10px 0;overflow:hidden}
 .pay-row{display:flex;align-items:center;gap:12px;padding:14px 10px;border-bottom:1px solid #eef2f7;cursor:pointer}
 .pay-row:last-child{border-bottom:0}
@@ -140,13 +167,11 @@ footer{background:rgba(0,0,0,.5);padding:28px 16px 16px;margin-top:10px;border-t
 .pay-radio{width:22px;height:22px;border-radius:50%;border:2px solid #cbd5e1;margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .pay-row.sel .pay-radio{border-color:#2563eb}
 .pay-row.sel .pay-radio:after{content:'';width:12px;height:12px;border-radius:50%;background:#2563eb;display:block}
-/* CONFIRM */
 .confirmModal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
 .confirmModal.show{display:flex}
 .confirmBox{background:#fff;color:#111;border-radius:22px;padding:22px;width:100%;max-width:340px;text-align:center}
 .c-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed #e2e8f0;font-size:14px}
 .c-row span{color:#64748b}
-/* PRINTER + RECEIPT */
 .printerTop{background:#1e293b;border-radius:16px 16px 0 0;padding:14px 14px 0;text-align:center}
 .printerTop:before{content:'';display:block;width:60px;height:6px;background:#475569;border-radius:10px;margin:0 auto 10px}
 .printerBody{background:#0f172a;border-radius:12px;padding:10px;display:flex;justify-content:center;gap:6px;align-items:center}
@@ -165,7 +190,7 @@ footer{background:rgba(0,0,0,.5);padding:28px 16px 16px;margin-top:10px;border-t
 </style>
 </head>
 <body>
-<header><div style="display:flex;gap:10px;align-items:center;min-width:0"><div id="logo" onclick="secretClick()"><span>LG</span></div><div id="storeTitle" onclick="secretClick()"><h2 id="storeNameTop">LADLA GAME STORE</h2><small id="storeTaglineTop">Trending Topups • Fast • Secure • Instant</small></div></div><span class="live">● LIVE</span></header>
+<header><div style="display:flex;gap:10px;align-items:center;min-width:0"><div id="logo" onclick="secretClick()"><span>LG</span></div><div id="storeTitle" onclick="secretClick()"><h2 id="storeNameTop">LADLA GAME STORE</h2><small id="storeTaglineTop">Trending Topups • Fast • Secure • Instant</small></div></div><div style="display:flex;gap:6px;align-items:center"><button id="installBtn" class="installBtn" onclick="installApp()">⬇️ Install</button><span class="live">● LIVE</span></div></header>
 <div id="banner"><span id="bannerText">🔥 Trending Topups<br>Fast • Secure • Instant</span><div class="banner-dots" id="bannerDots"></div></div>
 <div class="search">🔍 Search... PUBG, BGMI, Free Fire...</div>
 <div class="filters" id="filterBar"></div>
@@ -237,6 +262,18 @@ footer{background:rgba(0,0,0,.5);padding:28px 16px 16px;margin-top:10px;border-t
 <footer><div class="foot-top"><div class="foot-left"><h2 id="storeNameFoot">LADLA GAME STORE</h2><p><span id="storeDescFoot">LADLA GAME STORE</span> is your recharge store.</p><div class="pay"><span>VISA</span><span>Mastercard</span><span>Apple Pay</span><span>USDT</span><span>Bitcoin</span></div></div><div class="foot-right"><h4>Contact us</h4><p>If you need any help, please click on "Customer Service" to contact us</p><button class="cs-btn">✉️ Customer Service</button></div></div><div class="contact-box"><p>📞 <b>Official Contact:</b> <span id="showContact">Not set yet</span></p><p>📍 <b>Address:</b> <span id="showAddress">Not set yet</span></p><p>💻 <b>Developed By: Binrao</b></p></div><div class="bottom"><span>Terms | Privacy | Cookie</span><span>Copyright © <span id="storeCopyFoot">LADLA GAME STORE</span>. All rights reserved.</span></div></footer>
 
 <script>
+// ===== PWA INSTALL - SERVICE WORKER + INSTALL PROMPT =====
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').classList.add('show'); });
+function installApp(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; document.getElementById('installBtn').classList.remove('show'); }); } else { alert('Chrome me: 3 dots (⋮) > Install App / Add to Home Screen dabao\\n\\nAgar option nahi aa raha to site ko HTTPS (Netlify / GitHub Pages) pe upload karo - file:// pe Install nahi aata.'); } }
+window.addEventListener('appinstalled', ()=>{ document.getElementById('installBtn').classList.remove('show'); });
+// Service Worker isi file se banate hain
+if('serviceWorker' in navigator){
+  const swCode = `self.addEventListener('install',e=>{self.skipWaiting()});self.addEventListener('activate',e=>{self.clients.claim()});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>new Response('Offline')))})`;
+  const swBlob = new Blob([swCode], {type:'text/javascript'});
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
 const ADMIN_PIN="5425";let clickCount=0,clickTimer=null;
 function secretClick(){clickCount++;if(clickTimer)clearTimeout(clickTimer);clickTimer=setTimeout(()=>{clickCount=0},2000);if(clickCount>=5){clickCount=0;document.getElementById('pinOverlay').style.display='flex';document.getElementById('pinInput').value='';document.getElementById('pinError').style.display='none';}}
 function checkPin(){const v=document.getElementById('pinInput').value.trim();if(v===ADMIN_PIN){document.getElementById('pinOverlay').style.display='none';document.getElementById('settingsCard').style.display='block';document.getElementById('settingsCard').scrollIntoView({behavior:'smooth'});}else{document.getElementById('pinError').style.display='block';document.getElementById('pinInput').value='';}}
@@ -329,8 +366,7 @@ function closeConfirm(){document.getElementById('confirmModal').classList.remove
 function confirmPayNow(){document.getElementById('confirmModal').classList.remove('show');document.getElementById('page2').style.display='none';document.getElementById('page3').style.display='block';document.getElementById('p3UidLine').textContent="UID: "+curGame.fixedUid+" | "+(verifiedUser||curGame.fixedUser);document.getElementById('p3UserTop').innerHTML="<b>"+(verifiedUser||curGame.fixedUser)+"</b> • "+curPack.name+" • "+curPack.price+" • Order: "+curOrderId;let pct=0;let bar=document.getElementById('p3Bar');let pctEl=document.getElementById('p3Pct');let msg=document.getElementById('p3Msg');let timer=setInterval(()=>{pct+=5;if(pct>100)pct=100;bar.style.width=pct+"%";pctEl.textContent=pct+"%";if(pct<40)msg.textContent="Connecting to bank...";else if(pct<70)msg.textContent="Verifying payment...";else if(pct<95)msg.textContent="Transferring...";else msg.textContent="Completing...";if(pct>=100){clearInterval(timer);setTimeout(showFinalReceipt,500);}},180);}
 function showFinalReceipt(){document.getElementById('page3').style.display='none';document.getElementById('page4').style.display='block';let st=defaultStatus;let statusText="",stampText="",stampClass="",msg="";if(st==="Success"){statusText="PAID • APPROVED";stampText="PAID";stampClass="paid";msg="Payment successful";}if(st==="Pending"){statusText="PENDING • WAITING";stampText="PENDING";stampClass="pending";msg="Payment pending";}if(st==="Failed"){statusText="FAILED • DECLINED";stampText="FAILED";stampClass="failed";msg="Payment failed";}let reason=st==="Pending"?pendingReason:st==="Failed"?failedReason:"Thank you for shopping with us.";let d=new Date();let dateStr=d.toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'})+", "+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});document.getElementById('resultBox').innerHTML=`<div style="background:#fff;border-radius:22px;padding:18px;color:#111"><div style="text-align:center"><div style="font-size:36px">${st==="Success"?"✅":st==="Pending"?"⏳":"❌"}</div><h2 style="margin:8px 0">${msg}</h2><p style="color:#64748b;font-size:13px">${curPack.price} • ${curPay} ${_curCard} • ${curPack.name}</p><p style="color:#64748b;font-size:12px">${reason}</p></div><div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px"><b style="font-size:15px">Your receipt</b><span style="font-size:12px;color:#64748b">🖨️ Printer</span></div><div class="printerTop"><div class="printerBody"><i style="background:#22c55e"></i><i style="background:#facc15"></i><i style="background:#ef4444"></i><span style="color:#fff;font-size:11px;letter-spacing:2px;margin-left:6px">VOLTRA PRINTER • PRINTING...</span></div><div class="printerSlot"></div></div><div class="receiptWrap2"><div class="receiptPaper2" id="finalPaper"><div style="text-align:center;color:#64748b;font-size:11px">UC VOUCHER</div><h2 style="text-align:center;letter-spacing:3px;margin:5px 0">${storeName}</h2><div style="text-align:center;color:#64748b;font-size:11px">PAYMENT SLIP</div><hr><div class="r-row2"><span>Order ID</span><b>${curOrderId}</b></div><div class="r-row2"><span>UID</span><b>${curGame.fixedUid}</b></div><div class="r-row2"><span>Username</span><b>${verifiedUser||curGame.fixedUser}</b></div><div class="r-row2"><span>Package</span><b>${curPack.name}</b></div><div class="r-row2"><span>Payment</span><b>${curPay} ${_curCard}</b></div><div class="r-row2"><span>Date & Time</span><b>${dateStr}</b></div><hr><div class="r-row2"><span>TOTAL</span><b>${curPack.price} USD</b></div><div class="r-row2"><span>STATUS</span><b>${statusText}</b></div><div style="position:relative;height:110px;margin-top:10px"><div id="finalStamp" class="stamp ${stampClass}">${stampText}</div><div class="barcode2" style="position:absolute;inset:0;top:30px"></div></div><div style="text-align:center;color:#64748b;font-size:11px">Thank you for shopping with us.</div></div></div><div style="display:flex;gap:8px;margin-top:4px"><button onclick="replayReceipt()" style="flex:1;background:#eee;color:#111;box-shadow:none">↻ Print again</button><button onclick="closeFlow()" style="flex:1">Done</button></div></div></div>`;orders.push({game:curGame.name,pack:curPack.name,username:verifiedUser||curGame.fixedUser,uid:curGame.fixedUid,pay:curPay,price:curPack.price,id:curOrderId,status:st});localStorage.setItem('deal_orders',JSON.stringify(orders));renderOrders();setTimeout(()=>{document.getElementById('finalPaper').classList.add('show');},400);setTimeout(()=>{document.getElementById('finalStamp').classList.add('show');},2400);}
 function replayReceipt(){let p=document.getElementById('finalPaper');let s=document.getElementById('finalStamp');p.classList.remove('show');s.classList.remove('show');setTimeout(()=>{p.classList.add('show');},400);setTimeout(()=>{s.classList.add('show');},2400);}
-function startReceipt(){setTimeout(()=>{document.getElementById('finalPaper').classList.add('show');},400);setTimeout(()=>{document.getElementById('finalStamp').classList.add('show');},2400);}
 loadAll();
 </script>
 </body>
-  </html>
+</html>
