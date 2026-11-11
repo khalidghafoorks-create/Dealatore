@@ -344,7 +344,7 @@ function uploadGameBanners(e,i){
   files.forEach(f=>{
     let r = new FileReader();
     r.onload = ev=>{
-      compressImage(ev.target.result, 800, 0.65, (small)=>{
+      compressImage(ev.target.result, 500, 0.50, (small)=>{
         collectGames();
         if(!games[i].banners) games[i].banners=[];
         games[i].banners.push(small);
@@ -365,7 +365,7 @@ function uploadPackPhoto(e,gi,pi){
   const f = e.target.files[0]; if(!f) return;
   const r = new FileReader();
   r.onload = ev=>{
-    compressImage(ev.target.result, 600, 0.65, (small)=>{
+    compressImage(ev.target.result, 400, 0.50, (small)=>{
       collectGames();
       games[gi].packs[pi].photo = small;
       if(safeSave('deal_games', JSON.stringify(games))) renderAll();
@@ -377,7 +377,7 @@ function uploadGameIcon(e,i){
   const f = e.target.files[0]; if(!f) return;
   const r = new FileReader();
   r.onload = ev=>{
-    compressImage(ev.target.result, 400, 0.65, (small)=>{
+    compressImage(ev.target.result, 300, 0.50, (small)=>{
       collectGames();
       games[i].iconPhoto = small;
       if(safeSave('deal_games', JSON.stringify(games))){ renderAll(); alert('✅ Game Icon Photo Added!'); }
