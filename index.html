@@ -293,10 +293,103 @@ function renderMainBanner(){let el=document.getElementById('banner');if(!mainBan
 function rotateBanner(){bannerIdx=(bannerIdx+1)%BANNERS.length;if(mainBannerPhotos.length){mainBannerIdx=(mainBannerIdx+1)%mainBannerPhotos.length;}renderMainBanner();}
 setInterval(rotateBanner,2500);
 function renderBannerPhotosList(){let el=document.getElementById('bannerPhotosList');if(!el)return;document.getElementById('bannerCountText').textContent='Now '+mainBannerPhotos.length+' Banners - No Limit';if(!mainBannerPhotos.length){el.innerHTML='<p style="color:#aaa;font-size:12px">No banner yet.</p>';return;}el.innerHTML=mainBannerPhotos.map((src,i)=>`<div class="banner-item"><img src="${src}"><button onclick="deleteBannerPhoto(${i})">🗑️ Delete</button></div>`).join('');}
-function uploadBannerPhotos(e){let files=Array.from(e.target.files||[]);if(!files.length)return;let done=0;files.forEach(f=>{let r=new FileReader();r.onload=ev=>{let img=new Image();img.onload=()=>{let c=document.createElement('canvas');let w=img.width,h=img.height;let maxW=1200;if(w>maxW){h=h*maxW/w;w=maxW;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);mainBannerPhotos.push(c.toDataURL('image/jpeg',0.82));done++;if(done===files.length){renderBannerPhotosList();renderMainBanner();alert('✅ '+files.length+' Banners Added!');}};img.src=ev.target.result;};r.readAsDataURL(f);});e.target.value='';}
-function deleteBannerPhoto(i){if(!confirm('Delete this banner?'))return;mainBannerPhotos.splice(i,1);localStorage.setItem('deal_main_banners',JSON.stringify(mainBannerPhotos));if(mainBannerIdx>=mainBannerPhotos.length)mainBannerIdx=0;renderBannerPhotosList();renderMainBanner();}
-function clearAllBanners(){if(!confirm('Delete all banners?'))return;mainBannerPhotos=[];localStorage.setItem('deal_main_banners','[]');renderBannerPhotosList();renderMainBanner();}
-function saveMainBanners(){localStorage.setItem('deal_main_banners',JSON.stringify(mainBannerPhotos));alert('✅ Main Banners Saved!');}
+// ===== FIX - PHOTO CHOTI KAR KE SAVE HOGI, KABHI NAHI HATEGI =====
+function compressImage(dataUrl, maxW, quality, cb){
+  let img = new Image();
+  img.onload = ()=>{
+    let w = img.width, h = img.height;
+    if(w > maxW){ h = h * maxW / w; w = maxW; }
+    let c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    cb(c.toDataURL('image/jpeg', quality));
+  };
+  img.src = dataUrl;
+}
+function safeSave(key, value){
+  try{
+    localStorage.setItem(key, value);
+    return true;
+  }catch(e){
+    alert('⚠️ Jagah FULL hai! Purani 1-2 photo delete kar ke dobara try karo.');
+    return false;
+  }
+}
+function uploadBannerPhotos(e){
+  let files = Array.from(e.target.files||[]);
+  if(!files.length) return;
+  let done = 0;
+  files.forEach(f=>{
+    let r = new FileReader();
+    r.onload = ev=>{
+      compressImage(ev.target.result, 800, 0.65, (small)=>{
+        mainBannerPhotos.push(small);
+        done++;
+        if(done===files.length){
+          if(safeSave('deal_main_banners', JSON.stringify(mainBannerPhotos))){
+            renderBannerPhotosList(); renderMainBanner();
+            alert('✅ '+files.length+' Banners Added! Ab kabhi nahi hatenge.');
+          }
+        }
+      });
+    };
+    r.readAsDataURL(f);
+  });
+  e.target.value='';
+}
+function uploadGameBanners(e,i){
+  let files = Array.from(e.target.files||[]);
+  if(!files.length) return;
+  let done = 0;
+  files.forEach(f=>{
+    let r = new FileReader();
+    r.onload = ev=>{
+      compressImage(ev.target.result, 800, 0.65, (small)=>{
+        collectGames();
+        if(!games[i].banners) games[i].banners=[];
+        games[i].banners.push(small);
+        if(games[i].banners.length===1) games[i].photo = small;
+        done++;
+        if(done===files.length){
+          if(safeSave('deal_games', JSON.stringify(games))){
+            renderAll(); alert('✅ '+files.length+' Banners Added!');
+          }
+        }
+      });
+    };
+    r.readAsDataURL(f);
+  });
+  e.target.value='';
+}
+function uploadPackPhoto(e,gi,pi){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev=>{
+    compressImage(ev.target.result, 600, 0.65, (small)=>{
+      collectGames();
+      games[gi].packs[pi].photo = small;
+      if(safeSave('deal_games', JSON.stringify(games))) renderAll();
+    });
+  };
+  r.readAsDataURL(f);
+}
+function uploadGameIcon(e,i){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev=>{
+    compressImage(ev.target.result, 400, 0.65, (small)=>{
+      collectGames();
+      games[i].iconPhoto = small;
+      if(safeSave('deal_games', JSON.stringify(games))){ renderAll(); alert('✅ Game Icon Photo Added!'); }
+    });
+  };
+  r.readAsDataURL(f);
+}
+function saveMainBanners(){
+  if(safeSave('deal_main_banners', JSON.stringify(mainBannerPhotos))){
+    alert('✅ Main Banners Saved! Ab kabhi nahi hatenge.');
+  }
+}
 let storeName=localStorage.getItem('deal_store_name')||"LADLA GAME STORE";
 let storeTagline=localStorage.getItem('deal_store_tagline')||"Trending Topups • Fast • Secure • Instant";
 function applyStoreName(){storeName=document.getElementById('storeNameInput').value.trim()||"LADLA GAME STORE";storeTagline=document.getElementById('storeTaglineInput').value.trim()||"Trending Topups • Fast • Secure • Instant";localStorage.setItem('deal_store_name',storeName);localStorage.setItem('deal_store_tagline',storeTagline);updateStoreNameUI();alert('✅ Store Name Changed: '+storeName);}
