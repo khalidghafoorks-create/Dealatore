@@ -1,0 +1,16 @@
+{
+  "name": "LADLA GAME STORE",
+  "short_name": "LADLA STORE",
+  "description": "Trending Topups - Fast - Secure - Instant",
+  "id": "/",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a050a",
+  "theme_color": "#0a050a",
+  "icons": [
+    { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
